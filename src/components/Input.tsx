@@ -26,7 +26,7 @@ export const Input: React.FC<InputProps> = ({
 }) => {
   return (
     <div className={`flex w-full flex-col ${className ?? ""}`}>
-      <label className="mb-[7px] text-base font-normal" htmlFor={id}>
+      <label className="mb-[7px] text-base font-normal cursor-pointer" htmlFor={id}>
         {label}
       </label>
       <input

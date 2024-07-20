@@ -3,7 +3,7 @@ import "~/styles/globals.css";
 import { type Metadata } from "next";
 
 import { TRPCReactProvider } from "~/trpc/react";
-import { Header } from "./_components";
+import { Header } from "../components";
 
 export const metadata: Metadata = {
   title: "E-Commerce App",

@@ -8,6 +8,7 @@ export default {
         muted: "#333333",
         bgSecondary: "#f4f4f4",
         stroke: "#c1c1c1",
+        grayed: "#acacac",
       },
     },
   },

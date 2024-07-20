@@ -1,27 +1,32 @@
-"use client";
-
 import { useState } from "react";
 import { Button, Card, Hr, Input, Link } from "../../components";
 
-export default function Login() {
+export function Signup() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({ email, password });
+    console.log({ name, email, password });
   };
 
   return (
     <main className="mt-10 flex justify-center">
-      <Card title="Login">
+      <Card title="Create your account">
         <form onSubmit={onSubmit}>
-          <div className="text-center mb-8">
-            <h3 className="m-0 mb-3 text-2xl font-medium">
-              Welcome back to ECOMMERCE
-            </h3>
-            <p>The next gen business marketplace</p>
-          </div>
+          <Input
+            id="name"
+            label="Name"
+            name="name"
+            placeholder="Enter"
+            type="text"
+            value={name}
+            onValueChange={setName}
+            className="mb-8"
+            autoComplete="on"
+            required
+          />
           <Input
             id="email"
             label="Email"
@@ -46,10 +51,10 @@ export default function Login() {
             autoComplete="on"
             required
           />
-          <Button text="Login" className="mb-8" type="submit" />
+          <Button text="Create account" className="mb-8" type="submit" />
           <Hr className="mb-8" />
           <div className="text-center">
-            Don&apos;t have an Account? <Link href="/">Sign up</Link>
+            Have have an Account? <Link href="/login">Login</Link>
           </div>
         </form>
       </Card>
