@@ -2,19 +2,64 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model User {
+  id              String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name            String
+  email           String  @unique
+  password        String
+  isEmailVerified Boolean @default(false)
 
-    @@index([name])
+  likedCategories LikedCategory[]
+  signupRequests  SignupRequest[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+}
+
+model LikedCategory {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+
+  user     User     @relation(fields: [userId], references: [id])
+  category Category @relation(fields: [categoryId], references: [id])
+
+  userId     String @db.Uuid
+  categoryId String @db.Uuid
+  liked Boolean
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, categoryId])
+}
+
+model Category {
+  id   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name String
+
+  likedBy LikedCategory[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SignupRequest {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+
+  code String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @db.Uuid
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

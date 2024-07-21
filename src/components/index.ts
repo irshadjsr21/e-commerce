@@ -7,3 +7,4 @@ export * from "./Link";
 export * from "./OtpInput";
 export * from "./Checkbox";
 export * from "./Pagination";
+export * from "./Spinner";

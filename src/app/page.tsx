@@ -1,7 +1,9 @@
-"use client";
-
-import { Signup, Verify } from "./_components";
+import { ProtectedRoute, Signup } from "./_components";
 
 export default function Home() {
-  return <Verify />;
+  return (
+    <ProtectedRoute type="guest">
+      <Signup />
+    </ProtectedRoute>
+  );
 }

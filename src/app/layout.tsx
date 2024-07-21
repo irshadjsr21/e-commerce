@@ -4,6 +4,7 @@ import { type Metadata } from "next";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { Header } from "../components";
+import { AuthContextProvider } from "./authContext";
 
 export const metadata: Metadata = {
   title: "E-Commerce App",
@@ -17,8 +18,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Header></Header>
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+        <TRPCReactProvider>
+          <AuthContextProvider>
+            <Header />
+            {children}
+          </AuthContextProvider>
+        </TRPCReactProvider>
       </body>
     </html>
   );

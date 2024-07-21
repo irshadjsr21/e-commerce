@@ -7,10 +7,12 @@
  * need to use are documented accordingly near the end.
  */
 import { initTRPC } from "@trpc/server";
+import { cookies } from "next/headers";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
 import { db } from "~/server/db";
+import { verifyToken } from "../utils";
 
 /**
  * 1. CONTEXT
@@ -25,8 +27,33 @@ import { db } from "~/server/db";
  * @see https://trpc.io/docs/server/context
  */
 export const createTRPCContext = async (opts: { headers: Headers }) => {
+  const token = cookies().get("accessToken")?.value;
+  let user:
+    | { id: string; email: string; isEmailVerified: boolean; name: string }
+    | null
+    | undefined = undefined;
+
+  if (token) {
+    try {
+      const payload = verifyToken(token);
+
+      user = await db.user.findUnique({
+        where: {
+          id: payload.userId,
+        },
+        select: {
+          id: true,
+          email: true,
+          isEmailVerified: true,
+          name: true,
+        },
+      });
+    } catch (error) {}
+  }
+
   return {
     db,
+    user,
     ...opts,
   };
 };

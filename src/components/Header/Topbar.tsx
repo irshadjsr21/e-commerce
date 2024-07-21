@@ -1,3 +1,5 @@
+import { Logout } from "./Logout";
+
 const topbarLinks = [
   {
     name: "Help",
@@ -16,15 +18,16 @@ const topbarLinks = [
 export const Topbar = () => {
   return (
     <div className="flex flex-row justify-end px-[40px] py-3">
-      {topbarLinks.map((item, index) => (
+      {topbarLinks.map((item) => (
         <a
           key={item.name}
           href={item.link}
-          className={`${index < topbarLinks.length - 1 ? "mr-[20px]" : ""} text-xs text-muted no-underline`}
+          className={`mr-[20px] text-xs text-muted no-underline`}
         >
           {item.name}
         </a>
       ))}
+      <Logout />
     </div>
   );
 };

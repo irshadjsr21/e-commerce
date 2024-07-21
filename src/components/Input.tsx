@@ -11,6 +11,7 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   value: string;
   onValueChange: (value: string) => void;
   className?: string;
+  error?: string;
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -22,16 +23,20 @@ export const Input: React.FC<InputProps> = ({
   value,
   type,
   className,
+  error,
   ...rest
 }) => {
   return (
     <div className={`flex w-full flex-col ${className ?? ""}`}>
-      <label className="mb-[7px] text-base font-normal cursor-pointer" htmlFor={id}>
+      <label
+        className="mb-[7px] cursor-pointer text-base font-normal"
+        htmlFor={id}
+      >
         {label}
       </label>
       <input
         type={type}
-        className="rounded-md border-[1px] border-solid border-stroke px-4 py-[14px] text-base"
+        className={`${error ? "border-red-500" : "border-stroke"} rounded-md border-[1px] border-solid px-4 py-[14px] text-base`}
         placeholder={placeholder}
         name={name}
         id={id}
@@ -39,6 +44,7 @@ export const Input: React.FC<InputProps> = ({
         onChange={(e) => onValueChange(e.target.value)}
         {...rest}
       />
+      {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
     </div>
   );
 };

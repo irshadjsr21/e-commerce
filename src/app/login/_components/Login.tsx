@@ -1,26 +1,24 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Button, Card, Hr, Input, Link } from "../../components";
+import { Button, Card, Hr, Input, Link } from "../../../components";
 import { api } from "~/trpc/react";
+import { useAuth } from "../../authContext";
 import { setAuthTokens } from "~/utils";
 import { useRouter } from "next/navigation";
-import { useAuth } from "../authContext";
 
-export function Signup() {
-  const router = useRouter();
-  const auth = useAuth();
-
-  const [name, setName] = useState("");
+export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const mutation = api.user.signup.useMutation();
+  const auth = useAuth();
+  const router = useRouter();
+
+  const mutation = api.user.login.useMutation();
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     mutation.mutate({
-      name,
       email,
       password,
     });
@@ -34,45 +32,27 @@ export function Signup() {
 
   useEffect(() => {
     if (mutation.isSuccess) {
-      setName("");
-      setEmail("");
-      setPassword("");
-
       setAuthTokens(mutation.data);
-
-      if (mutation.data.isEmailVerified) {
-        router.replace("/category");
-      } else {
-        auth.onLogin({
-          isEmailVerified: mutation.data.isEmailVerified,
-          email: mutation.data.email,
-          name: mutation.data.name,
-          userId: mutation.data.id,
-        });
-      }
-
-      auth.setIsEmailVerified(mutation.data.isEmailVerified);
+      auth.onLogin({
+        isEmailVerified: mutation.data.isEmailVerified,
+        email: mutation.data.email,
+        name: mutation.data.name,
+        userId: mutation.data.id,
+      });
+      router.push("/category");
     }
   }, [mutation.isSuccess, mutation.data, auth.onLogin]);
 
   return (
     <main className="mt-10 flex justify-center">
-      <Card title="Create your account">
+      <Card title="Login">
         <form onSubmit={onSubmit}>
-          <Input
-            id="name"
-            label="Name"
-            name="name"
-            placeholder="Enter"
-            type="text"
-            value={name}
-            onValueChange={setName}
-            className="mb-8"
-            autoComplete="on"
-            required
-            disabled={mutation.isPending}
-            error={validationErrors?.name?.[0]}
-          />
+          <div className="mb-8 text-center">
+            <h3 className="m-0 mb-3 text-2xl font-medium">
+              Welcome back to ECOMMERCE
+            </h3>
+            <p>The next gen business marketplace</p>
+          </div>
           <Input
             id="email"
             label="Email"
@@ -84,7 +64,6 @@ export function Signup() {
             className="mb-8"
             autoComplete="on"
             required
-            disabled={mutation.isPending}
             error={validationErrors?.email?.[0]}
           />
           <Input
@@ -98,20 +77,15 @@ export function Signup() {
             className="mb-10"
             autoComplete="on"
             required
-            disabled={mutation.isPending}
             error={validationErrors?.password?.[0]}
           />
-          <Button
-            text="Create account"
-            type="submit"
-            disabled={mutation.isPending}
-          />
+          <Button text="Login" type="submit" />
           {defaultError && (
             <p className="mb-1 text-xs text-red-500">{defaultError}</p>
           )}
           <Hr className="my-8" />
           <div className="text-center">
-            Have have an Account? <Link href="/login">Login</Link>
+            Don&apos;t have an Account? <Link href="/">Sign up</Link>
           </div>
         </form>
       </Card>
