@@ -17,11 +17,14 @@ const computePaginationItems = (params: {
         text: "<<",
         page: 1,
       },
-      {
-        text: "<",
-        page: currentPage - 1,
-      },
     ];
+
+  if (currentPage > 1) {
+    paginationItems.push({
+      text: "<",
+      page: currentPage - 1,
+    });
+  }
 
   for (let i = 3; i >= 1; i--) {
     if (currentPage - i >= 1) {
@@ -47,10 +50,13 @@ const computePaginationItems = (params: {
     }
   }
 
-  paginationItems.push({
-    text: ">",
-    page: currentPage + 1,
-  });
+  if (currentPage < totalPages) {
+    paginationItems.push({
+      text: ">",
+      page: currentPage + 1,
+    });
+  }
+
   paginationItems.push({
     text: ">>",
     page: totalPages,

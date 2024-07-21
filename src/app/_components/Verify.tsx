@@ -64,7 +64,7 @@ export function Verify() {
               numInputs={8}
             />
           </div>
-          <Button text="Verify" type="submit" />
+          <Button text="Verify" type="submit" disabled={verifyMutation.isPending} />
           {sendMutation.isError && (
             <p className="mt-1 text-xs text-red-500">
               {sendMutation.error.message}
