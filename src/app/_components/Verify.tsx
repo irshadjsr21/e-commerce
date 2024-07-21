@@ -39,11 +39,11 @@ export function Verify() {
     const username = emailParts[0];
     const domain = emailParts[1];
 
-    if (!username || domain) {
+    if (!username || !domain) {
       return email;
     }
 
-    const maskedEmail = `${username.slice(0, 2)}***`;
+    const maskedEmail = `${username.slice(0, 3)}***`;
     return `${maskedEmail}@${domain}`;
   };
 
