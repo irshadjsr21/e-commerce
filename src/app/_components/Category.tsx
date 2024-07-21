@@ -10,16 +10,20 @@ export function Category() {
 
   const query = api.category.list.useQuery({ page, limit: 6 });
   const mutation = api.category.like.useMutation();
+  const [likedCategoriesMap, setLikedCategories] = useState<
+    Record<string, boolean>
+  >({});
 
   const onLike = (categoryId: string, isSelected: boolean) => {
+    setLikedCategories((prev) => {
+      return {
+        ...prev,
+        [categoryId]: isSelected,
+      };
+    });
+
     mutation.mutate({ categoryId, liked: isSelected });
   };
-
-  useEffect(() => {
-    if (mutation.isSuccess) {
-      query.refetch().catch(console.error);
-    }
-  }, [mutation.isSuccess]);
 
   return (
     <main className="mt-10 flex justify-center">
@@ -32,8 +36,7 @@ export function Category() {
             id={item.id}
             key={item.id}
             name={item.name}
-            checked={item.isLiked}
-            disabled={mutation.isPending}
+            checked={likedCategoriesMap[item.id] ?? item.isLiked}
             onChange={(val) => onLike(item.id, val)}
             className={
               index !== query.data.categories.length - 1 ? `mb-6` : undefined

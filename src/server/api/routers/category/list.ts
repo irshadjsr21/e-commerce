@@ -31,7 +31,7 @@ export const listProcedure = publicProcedure
       ...category,
       likedBy: undefined,
       isLiked: category.likedBy.some(
-        (likedBy) => likedBy.userId === ctx.user?.id
+        (likedBy) => likedBy.userId === ctx.user?.id && likedBy.liked
       ),
     }));
 
