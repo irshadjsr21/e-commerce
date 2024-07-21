@@ -1,5 +1,4 @@
-import { ProtectedRoute } from "../_components";
-import Login from "./_components/Login";
+import { Login, ProtectedRoute } from "../_components";
 
 export default function LoginPage() {
   return (

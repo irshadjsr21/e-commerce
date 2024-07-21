@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Button, Card, Hr, Input, Link } from "../../../components";
+import { Button, Card, Hr, Input, Link } from "../../components";
 import { api } from "~/trpc/react";
-import { useAuth } from "../../authContext";
+import { useAuth } from "../authContext";
 import { setAuthTokens } from "~/utils";
 import { useRouter } from "next/navigation";
 
-export default function Login() {
+export function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 

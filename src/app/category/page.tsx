@@ -1,5 +1,4 @@
-import { ProtectedRoute } from "../_components";
-import Category from "./_componenets/Category";
+import { ProtectedRoute, Category } from "../_components";
 
 export default function CategoryPage() {
   return (

@@ -1,11 +1,11 @@
 "use client";
 
 import { api } from "~/trpc/react";
-import { Card, Checkbox, Pagination } from "../../../components";
+import { Card, Checkbox, Pagination } from "../../components";
 import { useEffect, useState } from "react";
 import { Spinner } from "~/components/Spinner";
 
-export default function Category() {
+export function Category() {
   const [page, setPage] = useState(1);
 
   const query = api.category.list.useQuery({ page, limit: 6 });
