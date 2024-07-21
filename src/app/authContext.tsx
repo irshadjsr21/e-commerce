@@ -28,8 +28,7 @@ export interface AuthContextInterface {
   setIsEmailVerified: (isEmailVerified: boolean) => void;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-const AuthContext = createContext<AuthContextInterface>({} as any);
+const AuthContext = createContext<AuthContextInterface | undefined>(undefined);
 
 export function AuthContextProvider({
   children,
@@ -124,5 +123,9 @@ export function AuthContextProvider({
 }
 
 export function useAuth() {
-  return useContext(AuthContext);
+  const value = useContext(AuthContext);
+
+  if (!value) throw new Error("useAuth must be used within an AuthProvider");
+
+  return value;
 }

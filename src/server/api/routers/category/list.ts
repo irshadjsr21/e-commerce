@@ -27,15 +27,17 @@ export const listProcedure = publicProcedure
     });
     const total = await ctx.db.category.count();
 
+    const categoriesWithIsLiked = categories.map((category) => ({
+      ...category,
+      likedBy: undefined,
+      isLiked: category.likedBy.some(
+        (likedBy) => likedBy.userId === ctx.user?.id
+      ),
+    }));
+
     return {
       currentPage: input.page,
       totalPages: Math.ceil(total / input.limit),
-      categories: categories.map((category) => ({
-        ...category,
-        likedBy: undefined,
-        isLiked: category.likedBy.some(
-          (likedBy) => likedBy.userId === ctx.user.id
-        ),
-      })),
+      categories: categoriesWithIsLiked,
     };
   });
